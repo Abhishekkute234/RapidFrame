@@ -1,10 +1,32 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { featuresGridList } from "./utils/data";
 import { SparklesCore } from "./components/ui/sparkles";
-// Import the dotLottie player web component
-import "@dotlottie/player-component";
+import dynamic from "next/dynamic";
+
+// Client-side only component for dotlottie-player
+const ClientOnlyDotLottie = dynamic(
+  () =>
+    Promise.resolve(({ src, autoplay, loop, style }: any) => {
+      useEffect(() => {
+        // Import the component only on client side
+        import("@dotlottie/player-component");
+      }, []);
+
+      return (
+        <dotlottie-player
+          src={src}
+          autoplay={autoplay}
+          loop={loop}
+          style={style}
+        />
+      );
+    }),
+  { ssr: false }
+);
 
 // Type declaration for dotlottie-player custom element
 declare global {
@@ -32,7 +54,7 @@ export default function Home() {
   if (loading) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-black z-50">
-        <dotlottie-player
+        <ClientOnlyDotLottie
           src="https://lottie.host/703f827f-e896-4f21-b4c5-0436d64cb912/Us6WO8e7Ee.lottie"
           autoplay=""
           loop=""
