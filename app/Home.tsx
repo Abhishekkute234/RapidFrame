@@ -1,9 +1,47 @@
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { featuresGridList } from "./utils/data";
 import { SparklesCore } from "./components/ui/sparkles";
+// Import the dotLottie player web component
+import "@dotlottie/player-component";
+
+// Type declaration for dotlottie-player custom element
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      "dotlottie-player": {
+        src: string;
+        autoplay?: string;
+        loop?: string;
+        style?: React.CSSProperties;
+      };
+    }
+  }
+}
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // You can adjust the loading duration as needed
+    const timer = setTimeout(() => setLoading(false), 2500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-black z-50">
+        <dotlottie-player
+          src="https://lottie.host/703f827f-e896-4f21-b4c5-0436d64cb912/Us6WO8e7Ee.lottie"
+          autoplay=""
+          loop=""
+          style={{ width: 550, height: 550 }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="relative w-full min-h-screen bg-black flex flex-col items-center justify-center overflow-hidden">
       {/* Sparkles Background */}
@@ -62,29 +100,6 @@ export default function Home() {
 
           {/* Action Buttons */}
           <div className="mt-8 sm:mt-10 lg:mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-            {/* Primary CTA Button */}
-            <Link
-              href="/editor"
-              className="w-full sm:w-auto group relative inline-flex items-center justify-center px-8 sm:px-10 py-4 sm:py-5 text-base sm:text-lg font-semibold text-white bg-gradient-to-r from-purple-600 to-pink-600 rounded-full transition-all duration-300 hover:from-purple-700 hover:to-pink-700 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-500/50 shadow-lg hover:shadow-purple-500/25"
-            >
-              <span className="flex items-center gap-3">
-                <svg
-                  className="w-5 h-5 sm:w-6 sm:h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h1m4 0h1m6-9v9a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h14a2 2 0 012 2z"
-                  />
-                </svg>
-                Start Editing Now
-              </span>
-            </Link>
-
             {/* Secondary Button */}
             <Link
               href="https://github.com/mohyware/clip.js"
@@ -95,12 +110,27 @@ export default function Home() {
               <span className="flex items-center gap-3">
                 <svg
                   className="w-5 h-5 sm:w-6 sm:h-6"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
+                  viewBox="0 0 48 48"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                  <path
+                    fill="#EA4335"
+                    d="M24 9.5c3.54 0 6.04 1.53 7.43 2.81l5.48-5.48C33.36 3.58 28.98 1.5 24 1.5 14.84 1.5 7.38 7.94 5.08 16.53l6.76 5.25C13.03 15.49 17.91 9.5 24 9.5z"
+                  />
+                  <path
+                    fill="#34A853"
+                    d="M24 46.5c6.48 0 11.91-2.13 15.88-5.79l-7.32-5.98c-2.03 1.42-4.61 2.27-8.56 2.27-6.02 0-11.14-4.06-12.97-9.54l-7.42 5.72C8.88 41.26 15.91 46.5 24 46.5z"
+                  />
+                  <path
+                    fill="#4A90E2"
+                    d="M45.11 24.5c0-1.65-.15-2.85-.47-4.11H24v7.8h11.98c-.24 2.02-1.52 5.04-4.41 7.03l7.31 5.98C43.47 37.66 45.11 31.89 45.11 24.5z"
+                  />
+                  <path
+                    fill="#FBBC05"
+                    d="M11.03 27.46C10.59 26.16 10.32 24.69 10.32 23.12c0-1.57.27-3.04.71-4.34l-6.76-5.25C2.37 17.31 1.5 20.56 1.5 24s.87 6.69 2.77 10.47l6.76-5.72z"
+                  />
                 </svg>
-                View on GitHub
+                Google Sign In
               </span>
             </Link>
           </div>
